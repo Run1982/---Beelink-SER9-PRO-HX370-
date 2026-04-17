@@ -1026,6 +1026,7 @@ git push origin main
 <img width="797" height="1693" alt="Image" src="https://github.com/user-attachments/assets/60034eb5-27b9-4881-b9ab-3481f8590384" />
 <img width="797" height="1693" alt="Image" src="https://github.com/user-attachments/assets/759e7bbe-be52-498b-86d6-c04d91214422" />
 <img width="792" height="1693" alt="Image" src="https://github.com/user-attachments/assets/389696c2-8ea0-4fe0-aa03-1369ff155658" />
+<img width="794" height="1693" alt="Image" src="https://github.com/user-attachments/assets/800504b7-49dc-45b8-8e52-6427facbbe2f" />
 🚀 Идеи для дальнейшего развития
 · Дома уже давно работает Frigate с Coral, подумают докрутить два доступ к нему анализ видео и обновление кода, с откатом.
 · Можно попробовать более рутинные задачи предоставить...идей очень много...от написания кода, для .... попробовать дать доступ к моему не основному роутеру на OpenWrt Flint 2 пусть покопается и в нем, напоминания, и богально погода. 
