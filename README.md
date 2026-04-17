@@ -1,4 +1,4 @@
-Хотел бы передать огромный респект Beelink который делает обалденные вещи.
+Хотел бы передать огромный респект Beelink который делает обалденные вещи и без Beelink ничего бы этого не было.
 
 🧠 Genesis AI Core: Полное руководство по развёртыванию автономной ИИ-системы на Beelink SER9 PRO (HX370)
 <img width="1080" height="810" alt="Image" src="https://github.com/user-attachments/assets/aee5ee94-e080-4e4a-a557-a7462b2643a1" />
@@ -35,7 +35,7 @@
 
 🚀 Функциональные возможности системы
 
-🤖 Бот №1: Genesis Core (MyCameraHomeAssistant_bot)
+🤖 Бот №1: Genesis Core
 
 Основной ИИ‑ассистент, управляющий мини‑ПК.
 
@@ -46,7 +46,7 @@
 · Безопасно обновляет систему и себя: перед критическими изменениями автоматически создаёт Git‑коммит. При сбое или таймауте автоматически откатывается к последней рабочей версии. Вы также можете запросить откат вручную.
 · Поддерживает команды (подробный список см. в разделе Список команд).
 
-🦞 Бот №2: OpenClaw Gateway (OpenClaw_AI_R_bot)
+🦞 Бот №2: OpenClaw Gateway
 
 Мультиагентная платформа для сложных задач.
 
@@ -81,9 +81,9 @@
 Перед началом убедитесь, что у вас есть все токены и ключи API. Их нужно будет вставить в конфигурационные файлы.
 
 Назначение Где взять Пример формата
-Токен бота Genesis Core Создать через @BotFather 7182324565:AAHl3oKT7GGG0y6amOlWrFwtF9V3ltaLhPY
-Ваш Telegram ID Узнать у @userinfobot 323243098
-Токен бота OpenClaw Создать второго бота через @BotFather 8755693275:AAFE5HdsTDjBgzxIq-3UQPOdUdvGXtXLTEo
+Токен бота Genesis Core Создать через @BotFather 718232455565:AAHl3oKjgT7GGG0y6amOlWrFwtF9V3ltaLhPY
+Ваш Telegram ID Узнать у @userinfobot 32324633453098
+Токен бота OpenClaw Создать второго бота через @BotFather 8755693755275:AAFE5HdhfdsTDjBgzxIq-3UQPOdUdvGXtXLTEo
 DeepSeek API Key platform.deepseek.com sk-...
 OpenRouter API Key openrouter.ai/keys sk-or-v1-...
 GitHub Token github.com/settings/tokens (права repo, workflow) github_pat_...
@@ -1021,7 +1021,11 @@ git push origin main
 · Запоминать все взаимодействия в долговременной памяти.
 · Безопасно обновлять себя и всё окружение с автоматическим откатом при сбоях.
 · Работать 24/7 и автоматически восстанавливаться после отключений питания.
-
+<img width="792" height="1693" alt="Image" src="https://github.com/user-attachments/assets/64b71151-21dd-4119-8dd0-83a2c2c46f33" />
+<img width="796" height="1693" alt="Image" src="https://github.com/user-attachments/assets/62156765-4abd-4da1-8320-7270a7e439df" />
+<img width="797" height="1693" alt="Image" src="https://github.com/user-attachments/assets/60034eb5-27b9-4881-b9ab-3481f8590384" />
+<img width="797" height="1693" alt="Image" src="https://github.com/user-attachments/assets/759e7bbe-be52-498b-86d6-c04d91214422" />
+<img width="792" height="1693" alt="Image" src="https://github.com/user-attachments/assets/389696c2-8ea0-4fe0-aa03-1369ff155658" />
 🚀 Идеи для дальнейшего развития
 · Дома уже давно работает Frigate с Coral, подумают докрутить два доступ к нему анализ видео и обновление кода, с откатом.
 · Можно попробовать более рутинные задачи предоставить...идей очень много...от написания кода, для .... попробовать дать доступ к моему не основному роутеру на OpenWrt Flint 2 пусть покопается и в нем, напоминания, и богально погода. 
