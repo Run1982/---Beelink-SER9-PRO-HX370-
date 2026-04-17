@@ -1,139 +1,115 @@
-# ---Beelink-SER9-PRO-HX370-
-Полное руководство по развертыванию автономной ИИ-системы на Beelink SER9 PRO (HX370) ![Image](https://github.com/user-attachments/assets/5886b30f-0707-48ed-aaf1-be6784add369)
-Мы провели полный аудит, исправили все критические ошибки и успешно запустили вашу систему. Ниже — финальное, проверенное на практике пошаговое руководство, которое вы сможете разместить в своем GitHub-репозитории в качестве основной документации проекта. Оно включает описание функционала, полный процесс установки и настройки, а также ответы на ваши вопросы.
+Хотел бы передать огромный респект Beelink который делает обалденные вещи.
+
+🧠 Genesis AI Core: Полное руководство по развёртыванию автономной ИИ-системы на Beelink SER9 PRO (HX370)
+<img width="1080" height="810" alt="Image" src="https://github.com/user-attachments/assets/aee5ee94-e080-4e4a-a557-a7462b2643a1" />
+Версия 3.0 – Финальная, с активной памятью, саморазвитием и автооткатом ( но не последняя).
+
+Это руководство описывает создание полностью автономной, самообучающейся и самовосстанавливающейся ИИ‑системы на базе мини‑ПК Beelink SER9 PRO. Система состоит из двух компонентов, управляемых через Telegram, использует локальные LLM‑модели с аппаратным ускорением GPU, облачную поддержку, долговременную память и механизм автоматического отката при сбоях.
 
 ---
 
-# 🧠 Genesis AI Core: Полное руководство по развертыванию автономной ИИ-системы на Beelink SER9 PRO (HX370)
+📌 Оглавление
 
-**Версия 1.0 — Финальная, проверенная**
-
-Данное руководство описывает процесс создания полностью автономной, самообучающейся и расширяемой ИИ-системы на базе мини-ПК Beelink SER9 PRO с процессором AMD Ryzen AI 9 HX 370 и 64 ГБ ОЗУ. Система состоит из двух независимых компонентов, управляемых через Telegram, использует локальные LLM-модели с ускорением на GPU, облачную поддержку для сложных задач, долговременную память и способна к саморедактированию кода.
-
-## 📌 Оглавление
-
-1. [Функциональные возможности системы](#функциональные-возможности-системы)
-2. [Архитектура и используемые технологии](#архитектура-и-используемые-технологии)
-3. [Необходимые компоненты и токены](#необходимые-компоненты-и-токены)
-4. [Пошаговая установка и настройка](#пошаговая-установка-и-настройка)
-    - [Этап 1: Установка Ubuntu 24.04 LTS и настройка BIOS](#этап-1-установка-ubuntu-2404-lts-и-настройка-bios)
-    - [Этап 2: Установка драйверов AMD ROCm и системных утилит](#этап-2-установка-драйверов-amd-rocm-и-системных-утилит)
-    - [Этап 3: Установка Docker (опционально)](#этап-3-установка-docker-опционально)
-    - [Этап 4: Установка Ollama и локальных LLM-моделей](#этап-4-установка-ollama-и-локальных-llm-моделей)
-    - [Этап 5: Установка Redis и Python-окружения](#этап-5-установка-redis-и-python-окружения)
-    - [Этап 6: Создание файлов проекта Genesis Core](#этап-6-создание-файлов-проекта-genesis-core)
-    - [Этап 7: Настройка systemd-сервиса для Genesis Core](#этап-7-настройка-systemd-сервиса-для-genesis-core)
-    - [Этап 8: Установка Node.js и OpenClaw Gateway](#этап-8-установка-nodejs-и-openclaw-gateway)
-    - [Этап 9: Настройка и запуск OpenClaw Gateway](#этап-9-настройка-и-запуск-openclaw-gateway)
-    - [Этап 10: Финальная настройка автозагрузки и отказоустойчивости](#этап-10-финальная-настройка-автозагрузки-и-отказоустойчивости)
-5. [Размещение инструкции в GitHub-репозитории](#размещение-инструкции-в-github-репозитории)
-6. [Заключение и дальнейшее развитие](#заключение-и-дальнейшее-развитие)
+1. Функциональные возможности системы
+2. Архитектура и используемые технологии
+3. Необходимые компоненты и токены
+4. Этап 1: Установка Ubuntu 24.04 LTS и настройка BIOS
+5. Этап 2: Установка драйверов AMD ROCm и системных утилит
+6. Этап 3: Установка Docker (опционально)
+7. Этап 4: Установка Ollama и локальных LLM‑моделей
+8. Этап 5: Установка Redis и Python‑окружения
+9. Этап 6: Создание файлов проекта Genesis Core
+   · 6.1. Файл .env
+   · 6.2. Файл commands.json
+   · 6.3. Файл genesis_core.py (полный код)
+10. Этап 7: Настройка systemd‑сервиса для Genesis Core
+11. Этап 8: Установка Node.js и OpenClaw Gateway
+12. Этап 9: Настройка и запуск OpenClaw Gateway
+13. Этап 10: Финальная настройка автозагрузки и отказоустойчивости
+14. Этап 11: Проверка работы и мониторинг
+15. Список команд Telegram для быстрого доступа
+16. Размещение инструкции в GitHub‑репозитории
+17. Заключение и дальнейшее развитие
 
 ---
 
-## 🚀 Функциональные возможности системы
+🚀 Функциональные возможности системы
 
-После завершения настройки вы получите два независимых Telegram-бота, которые вместе образуют мощную ИИ-экосистему.
+🤖 Бот №1: Genesis Core (MyCameraHomeAssistant_bot)
 
-### 🤖 Бот №1: Genesis Core (`MyCameraHomeAssistant_bot`)
+Основной ИИ‑ассистент, управляющий мини‑ПК.
 
-Это ваш основной ИИ-ассистент, "мозг" системы. Он работает на Python и управляется через systemd.
+· Выполняет системные команды по запросу с обязательным подтверждением (через Telegram).
+· Ведёт осмысленный диалог с использованием локальных LLM‑моделей.
+· Ежедневно (в 09:00) анализирует тренды GitHub, статьи Habr и наличие обновлений Ubuntu / Ollama / OpenClaw, после чего предлагает конкретные улучшения.
+· Запоминает все диалоги и предложения в долговременной памяти (MemPalace).
+· Безопасно обновляет систему и себя: перед критическими изменениями автоматически создаёт Git‑коммит. При сбое или таймауте автоматически откатывается к последней рабочей версии. Вы также можете запросить откат вручную.
+· Поддерживает команды (подробный список см. в разделе Список команд).
 
-**Что он умеет:**
+🦞 Бот №2: OpenClaw Gateway (OpenClaw_AI_R_bot)
 
-- **Выполнять системные команды на мини-ПК** по вашему запросу с подтверждением. Например:
-    - `обнови систему` → выполняет `sudo apt update && sudo apt upgrade -y`.
-    - `какая температура процессора` → выполняет `sensors` и возвращает значение.
-    - `проверь интернет` → выполняет `ping`.
-    - `покажи логи` → показывает последние записи своего журнала.
-    - `перезапусти сервис` → перезапускает сам себя.
-    - `сколько места на диске` → выполняет `df -h`.
-- **Вести осмысленный диалог**, используя локальные LLM-модели (по умолчанию `deepseek-coder:6.7b` для быстрых ответов и `gemma4:26b-a4b-it-q4_K_M` для сложных).
-- **Самообучаться и саморазвиваться**:
-    - Ежедневно (в 09:00) собирает тренды с GitHub и статьи с Habr, анализирует их и предлагает конкретные улучшения для своего кода.
-    - По команде `/improve` запускает цикл анализа немедленно.
-- **Обладать долговременной памятью** (опционально, через MemPalace, временно отключено для стабильности, но легко включается).
-- **Отвечать на команды**:
-    - `/start` — приветствие и список команд.
-    - `/status` — статус подключения к Ollama и Redis.
-    - `/improve` — принудительный запуск анализа трендов.
-    - `/memory` — вывод последних записей из памяти (временно отключено).
+Мультиагентная платформа для сложных задач.
 
-### 🦞 Бот №2: OpenClaw Gateway (`OpenClaw_AI_R_bot`)
-
-Это ваш "конструктор" и "лаборатория". Это мощный фреймворк для создания и управления AI-агентами.
-
-**Что он умеет:**
-
-- **Быть хабом для AI-агентов**. Вы можете создавать специализированных агентов (например, "Планировщик", "Разработчик", "Рецензент") и общаться с ними через один интерфейс.
-- **Выполнять сложные задачи**, требующие планирования и пошагового выполнения.
-- **Писать и редактировать код** по вашему запросу, работая с файлами.
-- **Подключать различные LLM-модели** (как локальные через Ollama, так и облачные через API).
-- **Работать с несколькими каналами связи** (Telegram, Discord, Slack и др.).
-- **Иметь Web-интерфейс** для управления и мониторинга (доступен на `http://<IP-вашего-ПК>:18789`).
-
-### 🤝 Взаимодействие ботов
-
-В текущей конфигурации боты работают **независимо**. Вы можете общаться с каждым по отдельности. В будущем можно настроить "мостик", чтобы Genesis Core делегировал сложные задачи по написанию кода агенту "Developer" в OpenClaw.
+· Хаб для AI‑агентов (Planner, Developer, Reviewer).
+· Пишет и редактирует код по вашему запросу (при наличии прав).
+· Поддерживает различные LLM (локальные и облачные).
+· Имеет веб‑интерфейс для управления и мониторинга (http://<IP‑адрес>:18789).
+· Может самостоятельно размещать файлы в GitHub‑репозиториях (при наличии токена).
 
 ---
 
-## 🏗️ Архитектура и используемые технологии
+🏗️ Архитектура и используемые технологии
 
-В основе системы лежат следующие компоненты:
-
-| Компонент | Назначение | Версия/Модель |
-| :--- | :--- | :--- |
-| **ОС** | Базовая операционная система | Ubuntu 24.04 LTS |
-| **Драйвер GPU** | Обеспечение работы видеокарты для вычислений | AMD ROCm 7.2.1 |
-| **Локальный LLM-сервер** | Запуск и управление языковыми моделями | Ollama |
-| **Основная LLM** | Мощная модель для сложных задач | `gemma4:26b-a4b-it-q4_K_M` |
-| **Кодовая LLM** | Быстрая модель для анализа команд и диалогов | `deepseek-coder:6.7b` |
-| **Кэш и очередь** | Хранение временных данных и очередей задач | Redis |
-| **Память (опция)** | Долговременная память агента | MemPalace |
-| **Язык Genesis Core** | Основной язык разработки ассистента | Python 3.11+ |
-| **Управление Genesis Core** | Автоматический запуск и контроль | systemd |
-| **Платформа агентов** | Создание и управление AI-агентами | OpenClaw Gateway |
-| **Среда для OpenClaw** | Среда выполнения для платформы | Node.js 24 |
-| **Управление OpenClaw** | Автоматический запуск | systemd (user) |
+Компонент Назначение Версия / Модель
+ОС Базовая операционная система Ubuntu 24.04 LTS
+Драйвер GPU Аппаратное ускорение вычислений AMD ROCm 7.2.1
+Локальный LLM‑сервер Запуск и управление моделями Ollama
+Основная LLM Мощная модель для сложных задач gemma4:26b-a4b-it-q4_K_M
+Кодовая LLM Быстрая модель для анализа и диалогов deepseek-coder:6.7b
+Кэш и очередь Временное хранение данных Redis
+Долговременная память Хранение мыслей и истории MemPalace
+Язык Genesis Core Основной язык ассистента Python 3.11+
+Управление Genesis Core Автоматический запуск и контроль systemd
+Платформа агентов Создание и управление AI‑агентами OpenClaw Gateway
+Среда для OpenClaw Среда выполнения платформы Node.js 24
+Управление OpenClaw Автоматический запуск systemd (user)
 
 ---
 
-## 🔑 Необходимые компоненты и токены
+🔑 Необходимые компоненты и токены
 
-Перед началом убедитесь, что у вас есть все необходимые токены и ключи API. Их нужно будет вставить в конфигурационные файлы.
+Перед началом убедитесь, что у вас есть все токены и ключи API. Их нужно будет вставить в конфигурационные файлы.
 
-| Назначение | Где взять | Пример формата |
-| :--- | :--- | :--- |
-| **Токен бота Genesis Core** | Создать нового бота в Telegram через [@BotFather](https://t.me/BotFather) | `7182324565:AAHl3oKT7GGG0nnryeryeryF9V3ltaLhPY` |
-| **Ваш Telegram ID** | Узнать у бота [@userinfobot](https://t.me/userinfobot) | `32443098` |
-| **Токен бота OpenClaw** | Создать **второго** бота через [@BotFather](https://t.me/BotFather) | `8755693275:AAFE5tnrtr Iq-3UQPOdUdvGXtXLTEo` |
-| **DeepSeek API Key** | Зарегистрироваться на [platform.deepseek.com](https://platform.deepseek.com/) | `sk-53d7efe79561 yd h d91da16b9b0` |
-| **OpenRouter API Key** | Зарегистрироваться на [openrouter.ai](https://openrouter.ai/) | `sk-or-v1-784f1ca9fa502243065acca84f hdhdjjdjcb026aa3b8b760892b200` |
-| **GitHub Token** | Создать в [настройках токенов GitHub](https://github.com/settings/tokens) (права `repo`, `workflow`) | `github_pat_11APVLD2Y0oOe7PuJp92KP_SIkKJz03xYlTxPlWMxsOIVHgjfju8oUmwEBuFoV5C463SMk9FM1MyG` |
+Назначение Где взять Пример формата
+Токен бота Genesis Core Создать через @BotFather 7182324565:AAHl3oKT7GGG0y6amOlWrFwtF9V3ltaLhPY
+Ваш Telegram ID Узнать у @userinfobot 323243098
+Токен бота OpenClaw Создать второго бота через @BotFather 8755693275:AAFE5HdsTDjBgzxIq-3UQPOdUdvGXtXLTEo
+DeepSeek API Key platform.deepseek.com sk-...
+OpenRouter API Key openrouter.ai/keys sk-or-v1-...
+GitHub Token github.com/settings/tokens (права repo, workflow) github_pat_...
 
-> **Внимание!** Никогда не публикуйте ваши реальные токены в открытом доступе. В примерах этого руководства используются уже скомпрометированные (невалидные) ключи, приведенные для наглядности. Замените их на свои собственные.
+Внимание! Никогда не публикуйте реальные токены в открытом доступе. В примерах этого руководства используются уже невалидные ключи. Замените их на свои собственные.
 
 ---
 
-## 📝 Пошаговая установка и настройка
+📝 Этап 1: Установка Ubuntu 24.04 LTS и настройка BIOS
 
-### Этап 1: Установка Ubuntu 24.04 LTS и настройка BIOS
+1. Создайте загрузочную флешку с Ubuntu 24.04 LTS.
+2. Настройте BIOS (клавиша Del при загрузке):
+   · Boot → Установите USB‑накопитель первым в списке загрузки.
+   · Advanced → Power Management → Restore on AC Power Loss = [Power On]. Это гарантирует, что мини‑ПК включится автоматически после сбоя питания.
+   · Security → Secure Boot = [Disabled].
+3. Установите ОС:
+   · Выберите "Normal installation".
+   · Обязательно отметьте "Install third-party software for graphics and Wi‑Fi hardware...".
+   · На этапе разметки диска выберите "Erase disk and install Ubuntu".
+   · Создайте пользователя (например, run) и задайте пароль.
 
-1. **Создайте загрузочную флешку** с Ubuntu 24.04 LTS.
-2. **Настройте BIOS** (клавиша `Del` при загрузке):
-   - **Boot** → Установите USB-накопитель первым в списке загрузки.
-   - **Advanced → Power Management** → **Restore on AC Power Loss = [Power On]**. Это гарантирует, что мини-ПК включится автоматически после сбоя питания.
-   - **Security** → **Secure Boot = [Disabled]**.
-3. **Установите ОС**:
-   - Выберите "Normal installation".
-   - **Обязательно** отметьте "Install third-party software for graphics and Wi-Fi hardware...".
-   - На этапе разметки диска выберите "Erase disk and install Ubuntu".
-   - Создайте пользователя (например, `run`) и задайте пароль.
+---
 
-### Этап 2: Установка драйверов AMD ROCm и системных утилит
+⚙️ Этап 2: Установка драйверов AMD ROCm и системных утилит
 
-После загрузки системы откройте терминал (`Ctrl+Alt+T`) и выполните следующие команды:
+После загрузки системы откройте терминал (Ctrl+Alt+T) и выполните следующие команды:
 
 ```bash
 # Обновление системы и установка базовых утилит
@@ -155,9 +131,11 @@ source ~/.bashrc
 sudo reboot
 ```
 
-После перезагрузки проверьте, что GPU определился, командой `rocm-smi`. Вы должны увидеть свою видеокарту Radeon 890M.
+После перезагрузки проверьте, что GPU определился, командой rocm-smi. Вы должны увидеть свою видеокарту Radeon 890M.
 
-### Этап 3: Установка Docker (опционально)
+---
+
+🐳 Этап 3: Установка Docker (опционально)
 
 Этот шаг можно пропустить, если вы не планируете использовать Docker для изоляции задач.
 
@@ -168,7 +146,9 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
-### Этап 4: Установка Ollama и локальных LLM-моделей
+---
+
+🤖 Этап 4: Установка Ollama и локальных LLM‑моделей
 
 ```bash
 # Установка Ollama
@@ -180,9 +160,11 @@ ollama pull gemma4:26b-a4b-it-q4_K_M
 ollama pull deepseek-coder:6.7b
 ```
 
-Проверьте, что модель отвечает и использует GPU: `ollama run deepseek-coder:6.7b "ping" --verbose | grep -i roc`. Вы должны увидеть строку с `rocBLAS`.
+Проверьте, что модель отвечает и использует GPU: ollama run deepseek-coder:6.7b "ping" --verbose | grep -i roc. Вы должны увидеть строку с rocBLAS.
 
-### Этап 5: Установка Redis и Python-окружения
+---
+
+🐍 Этап 5: Установка Redis и Python‑окружения
 
 ```bash
 # Установка и запуск Redis
@@ -194,24 +176,26 @@ mkdir -p ~/genesis_agent_src && cd ~/genesis_agent_src
 python3 -m venv venv
 source venv/bin/activate
 
-# Установка необходимых Python-пакетов
+# Установка необходимых Python‑пакетов
 pip install --upgrade pip setuptools wheel
-pip install redis requests python-telegram-bot[job-queue] GitPython python-dotenv feedparser PyGithub
+pip install mempalace redis requests python-telegram-bot[job-queue] GitPython python-dotenv feedparser PyGithub
 ```
 
-### Этап 6: Создание файлов проекта Genesis Core
+---
 
-На этом этапе мы создадим все необходимые конфигурационные файлы и основной исполняемый скрипт для Genesis Core. Все файлы создаются в директории `~/genesis_agent_src`.
+📄 Этап 6: Создание файлов проекта Genesis Core
 
-#### 6.1. Файл переменных окружения `.env`
+Все файлы создаются в директории ~/genesis_agent_src.
 
-Создайте файл `.env` и **обязательно укажите в нем свои реальные токены**.
+6.1. Файл переменных окружения .env
+
+Создайте файл .env и обязательно укажите в нём свои реальные токены.
 
 ```bash
 nano .env
 ```
 
-Содержимое файла (замените `<...>` на свои значения):
+Содержимое файла (замените <...> на свои значения):
 
 ```ini
 TELEGRAM_BOT_TOKEN=<токен_бота_Genesis_Core>
@@ -227,13 +211,11 @@ GITHUB_TOKEN=<ваш_GitHub_Token>
 chmod 600 .env
 ```
 
-#### 6.2. Файл с белым списком команд `commands.json`
+6.2. Файл с белым списком команд commands.json
 
 ```bash
 nano commands.json
 ```
-
-Содержимое файла:
 
 ```json
 {
@@ -268,17 +250,23 @@ nano commands.json
   "restart": {
     "description": "Перезапустить сервис Genesis Core",
     "command": "sudo /usr/bin/systemctl restart genesis-core.service"
+  },
+  "rollback": {
+    "description": "Откатить последнее изменение кода (Git)",
+    "command": "git reset --hard HEAD~1"
   }
 }
 ```
 
-#### 6.3. Главный исполняемый файл `genesis_core.py`
+6.3. Главный исполняемый файл genesis_core.py
 
-Создайте файл `genesis_core.py` с приведенным ниже кодом. Этот код проверен и стабильно работает.
+Создайте файл с приведённым ниже кодом. Это полная версия со всеми функциями: память MemPalace, ежедневный анализ, предложение обновлений, автооткат через Git, подтверждение через Telegram.
 
 ```bash
 nano genesis_core.py
 ```
+
+Полный код (скопируйте целиком):
 
 ```python
 #!/usr/bin/env python3
@@ -290,6 +278,7 @@ import re
 import json
 import subprocess
 import time
+import shutil
 from datetime import datetime, timedelta
 from threading import Thread
 from dotenv import load_dotenv
@@ -300,6 +289,7 @@ import requests
 import feedparser
 from github import Github, RateLimitExceededException
 from functools import wraps
+from mempalace import MemPalace
 
 # Загрузка переменных окружения из .env
 load_dotenv()
@@ -322,8 +312,9 @@ logger = logging.getLogger("GenesisAI")
 
 # --- Глобальные компоненты ---
 redis_client = None
-mempalace = None   # не используется, оставлено для совместимости
+mempalace = None
 ALLOWED_COMMANDS = {}
+GIT_REPO_PATH = os.getcwd()  # предполагаем, что скрипт запускается из корня Git-репозитория
 
 # Список запрещенных команд (защита от RCE)
 FORBIDDEN_PATTERNS = [
@@ -364,7 +355,14 @@ def init_components():
     except Exception as e:
         logger.warning(f"Redis unavailable: {e}")
 
-    mempalace = None
+    # --- АКТИВИРУЕМ MemPalace ---
+    try:
+        mempalace = MemPalace(namespace="genesis_core")
+        mempalace.load()
+        logger.info("MemPalace initialized")
+    except Exception as e:
+        logger.warning(f"MemPalace unavailable: {e}")
+        mempalace = None
 
     try:
         with open("commands.json", "r") as f:
@@ -373,7 +371,7 @@ def init_components():
         logger.error("commands.json not found!")
         ALLOWED_COMMANDS = {}
 
-# --- Retry декоратор для устойчивости к сетевым ошибкам ---
+# --- Retry декоратор ---
 def retry(max_attempts=3, delay=1):
     def decorator(func):
         @wraps(func)
@@ -390,7 +388,7 @@ def retry(max_attempts=3, delay=1):
         return wrapper
     return decorator
 
-# --- Функции вызова LLM ---
+# --- LLM вызовы ---
 @retry(max_attempts=3, delay=2)
 def call_deepseek(prompt: str) -> str:
     headers = {"Authorization": f"Bearer {DEEPSEEK_API_KEY}"}
@@ -442,7 +440,7 @@ def think(prompt: str, use_cloud: bool = False, timeout: int = 60) -> str:
         return f"Ошибка LLM: {exception[0]}"
     return result[0] or "Пустой ответ от LLM."
 
-# --- Самообучение: анализ трендов GitHub и Habr ---
+# --- Самообучение: анализ трендов GitHub, Habr и официальных источников ---
 _github_trending_cache = {"data": [], "expires": datetime.min}
 
 def fetch_github_trending():
@@ -471,31 +469,115 @@ def fetch_habr():
         logger.error(f"Habr error: {e}")
         return []
 
+def fetch_official_updates():
+    """Проверка обновлений Ubuntu, Ollama, OpenClaw."""
+    updates = []
+    try:
+        # Ubuntu (через apt list)
+        proc = subprocess.run(["apt", "list", "--upgradable"], capture_output=True, text=True, timeout=30)
+        if proc.returncode == 0:
+            lines = proc.stdout.strip().split('\n')
+            if len(lines) > 1:
+                updates.append(f"Ubuntu: {len(lines)-1} пакетов можно обновить")
+    except:
+        pass
+
+    try:
+        # Ollama (через GitHub API)
+        r = requests.get("https://api.github.com/repos/ollama/ollama/releases/latest", timeout=30)
+        if r.status_code == 200:
+            latest = r.json()["tag_name"]
+            current = subprocess.run(["ollama", "--version"], capture_output=True, text=True).stdout.strip()
+            if latest not in current:
+                updates.append(f"Ollama: доступна новая версия {latest}")
+    except:
+        pass
+
+    try:
+        # OpenClaw (через npm)
+        proc = subprocess.run(["npm", "outdated", "-g", "openclaw"], capture_output=True, text=True, timeout=30)
+        if proc.returncode != 0:
+            updates.append("OpenClaw: можно обновить")
+    except:
+        pass
+
+    return updates
+
 def self_improvement_cycle():
     github = fetch_github_trending()
     habr = fetch_habr()
-    prompt = f"Тренды GitHub: {github}\nСтатьи Habr: {habr}\nПредложи улучшения для кода ИИ-агента Genesis Core."
-    analysis = think(prompt, use_cloud=False) # Используем локальную модель для экономии
+    official = fetch_official_updates()
+    prompt = f"""Тренды GitHub: {github}
+Статьи Habr: {habr}
+Официальные обновления: {official}
+
+На основе этих данных предложи **конкретные** улучшения для кода ИИ-агента Genesis Core, а также для самого мини-ПК (оптимизация, новые инструменты, обновления). Предложения должны быть практичными и реализуемыми. Если предлагаешь изменить код, напиши, что именно и зачем."""
+    analysis = think(prompt, use_cloud=False)
+    if mempalace:
+        mempalace.store(analysis, metadata={"type": "self_improvement", "timestamp": datetime.now().isoformat()})
     return analysis
 
-# --- Обработчики команд Telegram ---
+# --- Telegram handlers ---
 async def start(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🤖 Genesis AI Core. Команды: /status, /improve, /memory")
+    await update.message.reply_text(
+        "🤖 Genesis AI Core. Команды:\n"
+        "/status - статус системы\n"
+        "/improve - запустить анализ трендов\n"
+        "/memory - показать последние записи памяти\n"
+        "/updates - проверить обновления ОС и компонентов\n"
+        "/upgrade - обновить систему (требует подтверждения)\n"
+        "/rollback - откатить последнее изменение кода\n"
+        "Также я понимаю фразы: \"обнови систему\", \"какая температура\", \"проверь интернет\" и др."
+    )
 
 async def status(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
     ollama = "✅" if requests.get("http://localhost:11434/api/tags", timeout=5).status_code == 200 else "❌"
     redis_ok = "✅" if redis_client and redis_client.ping() else "❌"
-    await update.message.reply_text(f"Ollama: {ollama}\nRedis: {redis_ok}")
+    mem_ok = "✅" if mempalace else "❌"
+    await update.message.reply_text(f"Ollama: {ollama}\nRedis: {redis_ok}\nMemPalace: {mem_ok}")
 
 async def improve(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🔍 Анализирую тренды...")
+    await update.message.reply_text("🔍 Анализирую тренды GitHub, Habr и официальные обновления...")
     analysis = self_improvement_cycle()
     await update.message.reply_text(analysis[:4000])
 
 async def memory(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Память временно отключена.")
+    if mempalace:
+        mems = mempalace.retrieve("", limit=5)
+        if mems:
+            text = "\n\n".join([f"📌 {m['content'][:300]}..." for m in mems])
+        else:
+            text = "Память пуста."
+        await update.message.reply_text(f"🧠 Последние записи:\n{text[:4000]}")
+    else:
+        await update.message.reply_text("Память недоступна")
 
-# --- Безопасное выполнение системных команд ---
+async def updates(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
+    off = fetch_official_updates()
+    if off:
+        await update.message.reply_text("Доступны обновления:\n" + "\n".join(off))
+    else:
+        await update.message.reply_text("Все компоненты актуальны.")
+
+async def upgrade(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.effective_user.id)
+    cmd = "sudo apt update && sudo apt upgrade -y && ollama pull gemma4:26b-a4b-it-q4_K_M && ollama pull deepseek-coder:6.7b && sudo npm update -g openclaw"
+    if redis_client:
+        redis_client.setex(f"pending_cmd:{user_id}", 120, cmd)
+    await update.message.reply_text(
+        f"⚠️ Будут выполнены обновления системы, моделей Ollama и OpenClaw.\nКоманда: `{cmd[:100]}...`\n\nОтветьте \"да\" для подтверждения.",
+        parse_mode='Markdown'
+    )
+
+async def rollback(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
+    """Откат последнего изменения кода через Git."""
+    try:
+        subprocess.run(["git", "reset", "--hard", "HEAD~1"], cwd=GIT_REPO_PATH, check=True)
+        await update.message.reply_text("✅ Код откачен к предыдущей версии. Перезапустите сервис вручную.")
+    except Exception as e:
+        await update.message.reply_text(f"❌ Ошибка отката: {e}")
+
+# --- Выполнение команды на хосте ---
 def execute_host_command(command: str, timeout: int = 120) -> str:
     norm_cmd = normalize_command(command)
     key = find_command_key(command)
@@ -505,16 +587,28 @@ def execute_host_command(command: str, timeout: int = 120) -> str:
     if not is_command_allowed(norm_cmd):
         return "❌ Команда содержит запрещённые паттерны."
 
+    # Перед выполнением создаём Git-коммит текущего состояния (если есть изменения)
+    if key in ["update", "upgrade"]:
+        subprocess.run(["git", "add", "-A"], cwd=GIT_REPO_PATH)
+        subprocess.run(["git", "commit", "-m", f"Auto-commit before {key}"], cwd=GIT_REPO_PATH)
+
     try:
         proc = subprocess.run(norm_cmd, shell=True, capture_output=True, text=True, timeout=timeout)
         output = (proc.stdout + proc.stderr)[:3000]
+        # Если команда выполнилась успешно, фиксируем новое состояние
+        if proc.returncode == 0 and key in ["update", "upgrade"]:
+            subprocess.run(["git", "add", "-A"], cwd=GIT_REPO_PATH)
+            subprocess.run(["git", "commit", "-m", f"Auto-commit after {key}"], cwd=GIT_REPO_PATH)
         return f"✅ Выполнено:\n```\n{output}\n```"
     except subprocess.TimeoutExpired:
-        return "❌ Команда выполнялась слишком долго."
+        # При таймауте откатываем
+        subprocess.run(["git", "reset", "--hard", "HEAD~1"], cwd=GIT_REPO_PATH)
+        return "❌ Команда выполнялась слишком долго. Состояние откачено."
     except Exception as e:
-        return f"❌ Ошибка: {e}"
+        subprocess.run(["git", "reset", "--hard", "HEAD~1"], cwd=GIT_REPO_PATH)
+        return f"❌ Ошибка: {e}. Состояние откачено."
 
-# --- Обработчик подтверждения опасных действий ---
+# --- Обработчик подтверждения ---
 async def handle_confirmation(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = str(update.effective_user.id)
     text = update.message.text.lower().strip()
@@ -525,7 +619,7 @@ async def handle_confirmation(update: telegram.Update, context: ContextTypes.DEF
             result = execute_host_command(pending)
             await update.message.reply_text(result, parse_mode='Markdown')
 
-# --- Быстрые шаблоны для частых команд ---
+# --- Шаблоны быстрого распознавания ---
 INTENT_PATTERNS = {
     r"(обнови|апдейт).*систем": "update",
     r"установи.*обновлен": "upgrade",
@@ -535,6 +629,7 @@ INTENT_PATTERNS = {
     r"интернет": "ping",
     r"скорость": "speedtest",
     r"диск": "disk",
+    r"откат": "rollback",
 }
 
 def match_intent(text: str):
@@ -545,7 +640,7 @@ def match_intent(text: str):
                 return ALLOWED_COMMANDS[key]["command"], ALLOWED_COMMANDS[key]["description"]
     return None, None
 
-# --- Главный обработчик входящих сообщений ---
+# --- Основной обработчик сообщений ---
 async def handle_message(update: telegram.Update, context: ContextTypes.DEFAULT_TYPE):
     user_msg = update.message.text
     user_id = str(update.effective_user.id)
@@ -561,7 +656,7 @@ async def handle_message(update: telegram.Update, context: ContextTypes.DEFAULT_
     cmd, desc = match_intent(user_msg)
     if cmd:
         if redis_client:
-            redis_client.setex(f"pending_cmd:{user_id}", 60, cmd)
+            redis_client.setex(f"pending_cmd:{user_id}", 120, cmd)
         await update.message.reply_text(
             f"⚠️ {desc}\nКоманда: `{cmd}`\n\nОтветьте \"да\" для подтверждения.",
             parse_mode='Markdown'
@@ -570,6 +665,7 @@ async def handle_message(update: telegram.Update, context: ContextTypes.DEFAULT_
 
     await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=telegram.constants.ChatAction.TYPING)
 
+    # ИИ-анализ для сложных запросов
     commands_context = json.dumps({k: v["description"] for k, v in ALLOWED_COMMANDS.items()}, ensure_ascii=False)
     analysis_prompt = f"""Пользователь написал: "{user_msg}".
 Доступные команды: {commands_context}
@@ -580,7 +676,7 @@ async def handle_message(update: telegram.Update, context: ContextTypes.DEFAULT_
         if llm_decision in ALLOWED_COMMANDS:
             cmd_info = ALLOWED_COMMANDS[llm_decision]
             if redis_client:
-                redis_client.setex(f"pending_cmd:{user_id}", 60, cmd_info["command"])
+                redis_client.setex(f"pending_cmd:{user_id}", 120, cmd_info["command"])
             await update.message.reply_text(
                 f"⚠️ {cmd_info['description']}\nКоманда: `{cmd_info['command']}`\n\nОтветьте \"да\" для подтверждения.",
                 parse_mode='Markdown'
@@ -590,9 +686,11 @@ async def handle_message(update: telegram.Update, context: ContextTypes.DEFAULT_
         logger.error(f"LLM analysis failed: {e}")
 
     response = think(user_msg, use_cloud=False)
+    if mempalace:
+        mempalace.store(f"User: {user_msg}\nAI: {response[:200]}", metadata={"type": "conversation"})
     await update.message.reply_text(response[:4000])
 
-# --- Ежедневный цикл саморазвития ---
+# --- Ежедневный цикл саморазвития (в 09:00) ---
 def daily_cycle_thread(bot_token, chat_id):
     bot = telegram.Bot(token=bot_token)
     while True:
@@ -603,15 +701,22 @@ def daily_cycle_thread(bot_token, chat_id):
         time.sleep((next_run - now).total_seconds())
         try:
             analysis = self_improvement_cycle()
-            bot.send_message(chat_id=chat_id, text=f"📅 Ежедневный отчёт:\n{analysis[:4000]}")
+            # Предлагаем улучшения с кнопкой подтверждения (пока просто текст)
+            bot.send_message(chat_id=chat_id, text=f"📅 Ежедневный отчёт и предложения по улучшению:\n{analysis[:4000]}")
             if redis_client:
                 redis_client.set("last_cycle", datetime.now().isoformat())
         except Exception as e:
             logger.error(f"Daily cycle error: {e}")
 
-# --- Основная функция запуска ---
+# --- Основная функция ---
 def main():
     init_components()
+
+    # Создаём Git-репозиторий, если его нет
+    if not os.path.exists(os.path.join(GIT_REPO_PATH, ".git")):
+        subprocess.run(["git", "init"], cwd=GIT_REPO_PATH)
+        subprocess.run(["git", "add", "-A"], cwd=GIT_REPO_PATH)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=GIT_REPO_PATH)
 
     if redis_client:
         last_start = redis_client.get("last_start_time")
@@ -619,7 +724,7 @@ def main():
         if not last_start or (datetime.fromisoformat(last_start) + timedelta(hours=1) < datetime.now()):
             try:
                 bot_temp = telegram.Bot(token=TELEGRAM_TOKEN)
-                bot_temp.send_message(chat_id=TELEGRAM_CHAT_ID, text="🟢 Genesis AI Core запущен.")
+                bot_temp.send_message(chat_id=TELEGRAM_CHAT_ID, text="🟢 Genesis AI Core запущен с активной памятью и автооткатом.")
                 redis_client.set("last_start_time", now_iso)
             except:
                 pass
@@ -631,6 +736,9 @@ def main():
     application.add_handler(CommandHandler("status", status))
     application.add_handler(CommandHandler("improve", improve))
     application.add_handler(CommandHandler("memory", memory))
+    application.add_handler(CommandHandler("updates", updates))
+    application.add_handler(CommandHandler("upgrade", upgrade))
+    application.add_handler(CommandHandler("rollback", rollback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     logger.info("Bot polling started")
@@ -640,9 +748,11 @@ if __name__ == "__main__":
     main()
 ```
 
-Сохраните файл (`Ctrl+O`, `Enter`, `Ctrl+X`).
+Сохраните файл (Ctrl+O, Enter, Ctrl+X).
 
-### Этап 7: Настройка systemd-сервиса для Genesis Core
+---
+
+⚙️ Этап 7: Настройка systemd‑сервиса для Genesis Core
 
 Создайте файл сервиса, чтобы Genesis Core автоматически запускался при старте системы и перезапускался в случае сбоя.
 
@@ -650,7 +760,7 @@ if __name__ == "__main__":
 sudo nano /etc/systemd/system/genesis-core.service
 ```
 
-Содержимое файла (замените `run` на ваше имя пользователя):
+Содержимое файла (замените run на ваше имя пользователя):
 
 ```ini
 [Unit]
@@ -682,9 +792,11 @@ sudo systemctl enable genesis-core.service
 sudo systemctl start genesis-core.service
 ```
 
-Проверьте статус: `sudo systemctl status genesis-core.service`.
+Проверьте статус: sudo systemctl status genesis-core.service.
 
-### Этап 8: Установка Node.js и OpenClaw Gateway
+---
+
+🧩 Этап 8: Установка Node.js и OpenClaw Gateway
 
 Установите Node.js 24 (рекомендуемая версия) и сам OpenClaw.
 
@@ -694,24 +806,34 @@ sudo apt install -y nodejs
 sudo npm install -g openclaw@latest
 ```
 
-### Этап 9: Настройка и запуск OpenClaw Gateway
+---
 
-#### 9.1. Создание конфигурационного файла
+🦞 Этап 9: Настройка и запуск OpenClaw Gateway
 
-Создайте файл конфигурации `~/.openclaw/openclaw.json`. **Важно:** Укажите в нем токен вашего второго бота.
+9.1. Создание конфигурационного файла openclaw.json
+
+Создайте файл конфигурации ~/.openclaw/openclaw.json. Важно: Укажите в нём токен вашего второго бота и ваш локальный IP‑адрес для доступа к веб‑интерфейсу.
 
 ```bash
 mkdir -p ~/.openclaw
 nano ~/.openclaw/openclaw.json
 ```
 
-Содержимое файла (замените `<OPENCLAW_BOT_TOKEN>` на реальный токен):
+Содержимое файла (замените <OPENCLAW_BOT_TOKEN> на реальный токен и <ВАШ_IP> на IP вашего мини‑ПК, например 192.168.8.110):
 
 ```json
 {
   "gateway": {
     "mode": "local",
     "port": 18789,
+    "controlUi": {
+      "allowedOrigins": [
+        "http://localhost:18789",
+        "http://127.0.0.1:18789",
+        "http://<ВАШ_IP>:18789"
+      ],
+      "bind": "0.0.0.0"
+    },
     "auth": {
       "mode": "token",
       "token": "<OPENCLAW_BOT_TOKEN>"
@@ -731,21 +853,11 @@ nano ~/.openclaw/openclaw.json
         "enabled": false
       }
     }
-  },
-  "plugins": {
-    "entries": {
-      "telegram": {
-        "enabled": true
-      },
-      "ollama": {
-        "enabled": true
-      }
-    }
   }
 }
 ```
 
-#### 9.2. Установка и запуск systemd-сервиса (пользовательский)
+9.2. Установка и запуск systemd‑сервиса
 
 ```bash
 # Включение автоматического входа для пользовательских сервисов
@@ -759,11 +871,11 @@ systemctl --user enable openclaw-gateway
 systemctl --user start openclaw-gateway
 ```
 
-Проверьте статус: `systemctl --user status openclaw-gateway`.
+Проверьте статус: systemctl --user status openclaw-gateway.
 
-#### 9.3. Сопряжение с вашим Telegram-аккаунтом
+9.3. Сопряжение с вашим Telegram‑аккаунтом
 
-После первого запуска OpenClaw вы получите в Telegram сообщение с кодом подтверждения. Выполните в терминале команду, заменив `КОД` на ваш код:
+После первого запуска отправьте любое сообщение боту OpenClaw. Он пришлёт код подтверждения. Выполните в терминале команду, заменив КОД на ваш код:
 
 ```bash
 openclaw pairing approve telegram КОД
@@ -771,7 +883,9 @@ openclaw pairing approve telegram КОД
 
 Теперь бот OpenClaw будет отвечать на ваши сообщения.
 
-### Этап 10: Финальная настройка автозагрузки и отказоустойчивости
+---
+
+🔧 Этап 10: Финальная настройка автозагрузки и отказоустойчивости
 
 Для обеспечения максимальной автономности выполните следующие шаги:
 
@@ -784,7 +898,10 @@ sudo update-grub
 # Настройка автоматического входа в консоль (для экстренного доступа)
 sudo mkdir -p /etc/systemd/system/getty@tty1.service.d
 sudo nano /etc/systemd/system/getty@tty1.service.d/override.conf
-# Вставьте: [Service]\nExecStart=\nExecStart=-/sbin/agetty --autologin run --noclear %I $TERM
+# Вставьте:
+# [Service]
+# ExecStart=
+# ExecStart=-/sbin/agetty --autologin run --noclear %I $TERM
 
 # Настройка Watchdog для перезагрузки при зависании
 sudo apt install -y watchdog
@@ -796,50 +913,124 @@ sudo systemctl enable --now watchdog
 sudo visudo -f /etc/sudoers.d/genesis
 # Вставьте: run ALL=(ALL) NOPASSWD: /usr/bin/apt update, /usr/bin/apt upgrade, /usr/bin/systemctl restart genesis-core.service, /usr/bin/journalctl
 sudo chmod 0440 /etc/sudoers.d/genesis
+
+# Лог‑ротация для Genesis Core
+sudo nano /etc/logrotate.d/genesis
+# Вставьте:
+# /home/run/genesis_agent_src/genesis.log {
+#     daily
+#     rotate 7
+#     compress
+#     missingok
+#     notifempty
+#     create 0640 run run
+# }
 ```
 
 ---
 
-## 📖 Размещение инструкции в GitHub-репозитории
+✅ Этап 11: Проверка работы и мониторинг
 
-Разместить эту инструкцию в вашем GitHub-репозитории очень просто. Вы можете сделать это двумя способами:
+Проверка ботов в Telegram
 
-1.  **Самый простой — через веб-интерфейс GitHub:**
-    - Перейдите в ваш репозиторий (например, `genesis_agent_src`).
-    - Нажмите кнопку **"Add file"** → **"Create new file"**.
-    - В поле имени файла укажите `README.md`.
-    - **Полностью скопируйте** текст этого руководства (от заголовка "# 🧠 Genesis AI Core..." до конца) и вставьте его в поле редактора.
-    - Внизу страницы нажмите кнопку **"Commit new file"**.
+Бот Команда Ожидаемый результат
+Genesis Core (MyCameraHomeAssistant_bot) /start Приветствие и список команд
+ /status Статус Ollama, Redis, MemPalace
+ /improve Анализ трендов (от локальной модели)
+ /memory Последние записи из памяти
+ /updates Информация о доступных обновлениях
+ /upgrade Запрос подтверждения, затем полное обновление
+ обнови систему Запрос подтверждения, затем apt update
+OpenClaw (OpenClaw_AI_R_bot) ping Ответ от модели
 
-2.  **Через терминал на вашем мини-ПК:**
-    ```bash
-    cd ~/genesis_agent_src
-    # Создайте файл README.md и вставьте в него руководство
-    nano README.md
-    # После вставки текста сохраните и выйдите
-    git add README.md
-    git commit -m "Добавлено полное руководство по установке"
-    git push origin main
-    ```
+Доступ к веб‑интерфейсу OpenClaw
 
-Теперь любой, кто зайдет в ваш репозиторий, увидит эту инструкцию на главной странице.
+· С самого мини‑ПК: http://127.0.0.1:18789
+· С другого устройства в локальной сети: http://<IP_вашего_ПК>:18789
+
+Токен для входа можно найти в логах:
+
+```bash
+journalctl --user -u openclaw-gateway -f | grep token
+```
+
+Мониторинг состояния сервисов
+
+```bash
+sudo systemctl status genesis-core
+systemctl --user status openclaw-gateway
+```
+
+Логи Genesis Core: sudo journalctl -u genesis-core -f
+Логи OpenClaw: journalctl --user -u openclaw-gateway -f
 
 ---
 
-## 💎 Заключение и дальнейшее развитие
+📋 Список команд Telegram для быстрого доступа
 
-Поздравляем! Вы создали полноценную, автономную и отказоустойчивую ИИ-систему на базе мини-ПК. Ваша система умеет:
+Команда / Фраза Действие
+/start Показать список команд
+/status Состояние Ollama, Redis, MemPalace
+/improve Запустить анализ трендов (GitHub + Habr + обновления) и получить предложения
+/memory Показать последние 5 записей из долговременной памяти
+/updates Проверить наличие обновлений Ubuntu, Ollama, OpenClaw
+/upgrade Обновить систему, модели Ollama и OpenClaw (требует подтверждения)
+/rollback Откатить последнее изменение кода через Git (ручной откат)
+обнови систему Запустить sudo apt update (после подтверждения)
+какая температура Показать температуру процессора
+проверь интернет Выполнить ping 8.8.8.8
+покажи логи Показать логи Genesis Core за час
+перезапусти сервис Перезапустить Genesis Core
+сколько места на диске Выполнить df -h
+откати изменения То же, что и /rollback
 
-- Поддерживать диалог и выполнять системные команды.
-- Анализировать тренды разработки и предлагать улучшения.
-- Работать 24/7 и автоматически восстанавливаться после сбоев.
-- Служить платформой для создания и управления AI-агентами.
+---
 
-### 🚀 Идеи для дальнейшего развития:
+📖 Размещение инструкции в GitHub‑репозитории
 
-- **Активируйте долговременную память**: Раскомментируйте строки, связанные с `mempalace`, в `genesis_core.py` и настройте MemPalace.
-- **Интегрируйте ботов**: Настройте Genesis Core так, чтобы он делегировал задачи по написанию кода агенту `Developer` в OpenClaw.
-- **Добавьте новые команды**: Расширьте файл `commands.json` и словарь `INTENT_PATTERNS` в `genesis_core.py`, чтобы бот мог выполнять больше действий.
-- **Подключите облачных провайдеров**: Настройте OpenClaw на использование платных и более мощных моделей через API (OpenAI, Anthropic, Google).
+Вы можете разместить это руководство в своём GitHub‑репозитории, чтобы другие могли повторить ваш путь.
 
-Ваш Beelink SER9 PRO теперь не просто мини-ПК, а персональная ИИ-лаборатория, способная учиться, развиваться и помогать вам в решении самых разных задач. Удачи в экспериментах и разработке!
+Способ 1: Вручную через терминал
+
+```bash
+cd ~/genesis_agent_src
+nano README.md
+# Скопируйте всё содержимое этого руководства и вставьте в редактор
+git add README.md
+git commit -m "Добавлено полное руководство по установке"
+git push origin main
+```
+
+Способ 2: Через агента Developer в OpenClaw
+
+Отправьте боту OpenClaw команду:
+
+```
+@developer создай файл README.md в репозитории genesis_agent_src с содержимым:
+[полный текст руководства]
+```
+
+---
+
+💎 Заключение и дальнейшее развитие
+
+Поздравляем! Вы создали полностью автономную, отказоустойчивую ИИ‑систему. Ваша система умеет:
+
+· Поддерживать диалог и выполнять системные команды.
+· Анализировать тренды разработки и предлагать улучшения.
+· Запоминать все взаимодействия в долговременной памяти.
+· Безопасно обновлять себя и всё окружение с автоматическим откатом при сбоях.
+· Работать 24/7 и автоматически восстанавливаться после отключений питания.
+
+🚀 Идеи для дальнейшего развития
+· Дома уже давно работает Frigate с Coral, подумают докрутить два доступ к нему анализ видео и обновление кода, с откатом.
+· Можно попробовать более рутинные задачи предоставить...идей очень много...от написания кода, для .... попробовать дать доступ к моему не основному роутеру на OpenWrt Flint 2 пусть покопается и в нем, напоминания, и богально погода. 
+· Настройте автоматическое применение предложенных улучшений (с вашим подтверждением).
+· Интегрируйте ботов: настройте Genesis Core так, чтобы он делегировал задачи по написанию кода агенту Developer в OpenClaw.
+· Добавьте новые команды: расширьте файл commands.json и словарь INTENT_PATTERNS.
+· Подключите облачных провайдеров: настройте OpenClaw на использование платных и более мощных моделей через API.
+
+Ваш Beelink SER9 PRO теперь не просто мини‑ПК, а персональная ИИ‑лаборатория, способная учиться, развиваться и помогать вам в решении самых разных задач. Удачи в экспериментах и разработке!
+
+В коде не совершенно и он будет постепенно развиваться дальше. 
+P.S. токены другие уже)
