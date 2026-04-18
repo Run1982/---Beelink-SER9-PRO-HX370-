@@ -1021,6 +1021,7 @@ git push origin main
 · Запоминать все взаимодействия в долговременной памяти.
 · Безопасно обновлять себя и всё окружение с автоматическим откатом при сбоях.
 · Работать 24/7 и автоматически восстанавливаться после отключений питания.
+Ниже скрины двух телеграм-ботов один бот это ИИ локальный, а второй OpenClaw, разделил что интуитивно понятно кда я пишу, для каких нужд:
 <img width="792" height="1693" alt="Image" src="https://github.com/user-attachments/assets/64b71151-21dd-4119-8dd0-83a2c2c46f33" />
 <img width="796" height="1693" alt="Image" src="https://github.com/user-attachments/assets/62156765-4abd-4da1-8320-7270a7e439df" />
 <img width="797" height="1693" alt="Image" src="https://github.com/user-attachments/assets/60034eb5-27b9-4881-b9ab-3481f8590384" />
